@@ -1,6 +1,6 @@
 # Generador QR
 
-Este proyecto es una aplicación de **Blazor Server** para generar códigos QR a partir de un texto ingresado por el usuario. Utiliza **MudBlazor** para la interfaz de usuario y **QRCoder** para la generación de códigos QR.
+Este proyecto es una aplicación de **Blazor Web App** para generar códigos QR a partir de un texto ingresado por el usuario. Utiliza **MudBlazor** para la interfaz de usuario y **QRCoder** para la generación de códigos QR.
 
 ## Características
 
@@ -11,8 +11,8 @@ Este proyecto es una aplicación de **Blazor Server** para generar códigos QR a
 ## Tecnologías utilizadas
 
 - **Blazor Server**: Para la creación de aplicaciones web interactivas.
-- **MudBlazor**: Librería de componentes UI para Blazor.
 - **QRCoder**: Librería para la generación de códigos QR.
+- **MudBlazor**: Librería de componentes UI para Blazor.
 
 ## Requisitos previos
 
