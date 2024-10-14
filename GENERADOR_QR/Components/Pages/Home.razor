@@ -1,0 +1,59 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@inject IDialogService DialogService
+@inject ILogicManager imanager
+
+<PageTitle>Generador QR</PageTitle>
+@if (loading)
+{
+    <GENERADOR_QR.Components.Load.Load></GENERADOR_QR.Components.Load.Load>
+}
+<MudStack  AlignItems="AlignItems.Center" Justify="Justify.Center">
+    <MudTextField @bind-Value="@submittedUrl" T="string" Label="Ingresa el texto Aquí" MaxLength="400"/>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="GenerarQR">Generar QR</MudButton>
+    @if (!string.IsNullOrEmpty(QRcode))
+    {
+        <MudStack AlignItems="AlignItems.Center">
+            <MudImage Style="width:300px;" Src="@QRcode" />
+            <br/>
+            <a href="@QRcode" download="codigo_qr.png">Descargar en PNG</a>
+        </MudStack>
+    }
+</MudStack>
+@code{
+
+    private string submittedUrl = "";
+    private string QRcode { get; set; } = "";
+    private bool loading { get; set; } = false;
+
+    private async Task GenerarQR()
+    {
+        loading = true;
+        StateHasChanged();
+        if (string.IsNullOrEmpty(submittedUrl))
+        {
+            await Task.Delay(4000);
+            await OpenDialogAsync("Atención", "El campo no se puede enviar vacío");
+            loading = false;
+            StateHasChanged();
+        }
+        else
+        {
+            await Task.Delay(4000);
+            QRcode = await imanager.GenerateQR(submittedUrl);
+            loading = false;
+            StateHasChanged();
+        }
+    }
+
+    private Task OpenDialogAsync(string titulo, string descripcion)
+    {
+        var parameters = new DialogParameters<DialogDefauld>
+        {
+            { x => x.Titulo, titulo },
+            { x => x.Descripcion, descripcion}
+        };
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+        return DialogService.ShowAsync<DialogDefauld>("Dialog_1", parameters, options);
+    }
+}
